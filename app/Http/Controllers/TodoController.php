@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use App\Todo;
+use App\Todos;
 
 class TodoController extends Controller
 {
     
 	function index (){
-		$todo = Todo::all();
+		$todo = Todos::all();
 		// $todo = DB::table('todo')->get();
 		return view('todo.list', ['todo' => $todo]);
 	}
@@ -33,7 +33,7 @@ class TodoController extends Controller
                         ->withErrors($validator)
                         ->withInput();
         }else{
-			Todo::insert_todo(
+			Todos::insert_todo(
 				$request->input('description'),
 				$request->input('is_done') ?  1 : 0
 			);
@@ -60,7 +60,7 @@ class TodoController extends Controller
                         ->withErrors($validator)
                         ->withInput();
         }else{
-			$updated = Todo::update_todo(
+			$updated = Todos::update_todo(
 				$id,
 				$request->input('description'),
 				$request->input('is_done') ?  1 : 0
@@ -73,8 +73,8 @@ class TodoController extends Controller
 	}
 
 	function delete($id){
-		$d = Todo::delete_todo($id);
-		$todo = Todo::all();
+		$d = Todos::delete_todo($id);
+		$todo = Todos::all();
 		return view('todo.list', ['todo' => $todo, 'deleted' => $d]);
 	}
 
